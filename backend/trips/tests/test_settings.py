@@ -1,6 +1,7 @@
 """Settings must be safe by default and importable the way Vercel imports them.
 
-That means no database and no .env file.
+That means no database, and importing cleanly with no backend/.env file present (config/settings.py
+loads one if it exists, for local-dev convenience, but must not require it).
 """
 
 import os

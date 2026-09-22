@@ -1,6 +1,9 @@
 # Implementation Plan
 
-> **Status:** **rev 3** — 2026-09-21. **G0 approved. Phase 0 is built and verified; awaiting your G1 review.** Phases 1–7 have not started (§9).
+> **Status:** **rev 4.** Phases 0–6 (bootstrap, HOS engine, routing/API, frontend, hardening/QA) are built,
+> matching the current repository contents; §9 has the full revision history. The GitHub repository has been
+> pushed publicly (part of Phase 7b, submission). **Phase 7a (deploy) has not happened** — the project is not
+> hosted anywhere; deploying still needs its own explicit go-ahead.
 > Companion docs: [`architecture.md`](architecture.md) · [`hos-rules.md`](hos-rules.md).
 
 ---
@@ -93,7 +96,7 @@ need your explicit go-ahead at **G6**; the optional Phase-2 deploy spike needs i
 | Gate | Name | Follows | You verify |
 | --- | --- | --- | --- |
 | **G0** | Docs / rules approval | **approved 2026-09-21** | These four docs; decisions Q1–Q19 are recorded in §7.3 |
-| **G1** | Bootstrap verification | Phase 0 — **built; awaiting your review** | Both toolchains run; all gate commands green; layout matches architecture §4.1 / §5.1; `git status` clean of secrets; `trips/hos` stdlib-only test passes |
+| **G1** | Bootstrap verification | Phase 0 — **done** | Both toolchains run; all gate commands green; layout matches architecture §4.1 / §5.1; `git status` clean of secrets; `trips/hos` stdlib-only test passes |
 | **G2** | HOS engine verification | Phase 1 | Goldens S1–S6 + S4b, boundary tests and 11 properties pass; the validator's 12 checks each fire on a mutated plan; you hand-check S3, S4, S6; no `restart` in any default plan |
 | **G3** | Routing / API verification | Phases 2–3 | ORS adapter on recorded fixtures **and** one live call; geometry / places / time-zone tests; API contract incl. `cycle_exhausted` = HTTP 200; OpenAPI; a real `curl` plan |
 | **G4** | Frontend verification | Phases 4–5 | Form, map, stops, log sheets, summary and banners at desktop and phone width; a11y pass; **client contains no HOS logic** (guard test + your review) |
@@ -101,7 +104,7 @@ need your explicit go-ahead at **G6**; the optional Phase-2 deploy spike needs i
 | **G6** | Deployment verification | Phase 7a | Hosted frontend + backend; env vars; CORS; hosted smoke passes |
 | **G7** | Final submission verification | Phase 7b | README, repo hygiene (no secrets, no docx), Loom recorded, links in README; §6 checklist complete |
 
-### Phase 0 — Bootstrap · **done — awaiting G1**
+### Phase 0 — Bootstrap · **done**
 
 - `git init` (`main`); real `.gitignore`; README skeleton (setup, run, test, **assumptions**, attributions: GeoNames CC BY 4.0, © OpenStreetMap).
 - Backend: `py -3.12 -m venv backend\.venv`; install Django 5.2 LTS and DRF (+ pytest, pytest-django, ruff, mypy) — every other library arrives in the phase that first uses it, and `python-dotenv` is dropped (environment variables only, Q14); Django project in `backend/config`, app `trips`; **minimal settings** (architecture §4.6); `GET /api/health`; ruff / mypy / pytest config; **import-graph test** (`trips/hos` is stdlib-only; `routing` ↛ `hos`).
@@ -110,7 +113,7 @@ need your explicit go-ahead at **G6**; the optional Phase-2 deploy spike needs i
 - **Exit:** `pytest`, `vitest`, `tsc`, `eslint`, `npm run build` all green; both dev servers start; `git status` shows no secrets. **Met on 2026-09-21** — the actual command output is in the G1 report.
 - **Deviations from the plan:** (1) tests run on `config.settings_test`, because pytest-django initialises Django before any `conftest.py` runs; (2) only what Phase 0 exercises was installed (architecture §9); (3) no CI workflow (Q11); (4) `frontend/` was scaffolded with `create-vite` 9.2.1 (ESLint variant) in a scratch directory and copied in; (5) the `.gitkeep` placeholders were removed from backend folders that now hold real files.
 
-### Phase 1 — HOS engine (pure Python) · 5–7 h → **G2**
+### Phase 1 — HOS engine (pure Python) · 5–7 h → **G2** · **done**
 
 TDD, in this order:
 
@@ -123,7 +126,7 @@ TDD, in this order:
 
 - **Exit:** every scenario, boundary and property in hos-rules §11 passes · `trips/hos` ≥ 95 % branch coverage · stdlib-only · a `cycle_exhausted` plan validates clean · hos-rules.md matches behaviour.
 
-### Phase 2 — Routing, geo and hosting spikes · 3–4 h → **G3** (with Phase 3)
+### Phase 2 — Routing, geo and hosting spikes · 3–4 h → **G3** (with Phase 3) · **done**
 
 - **ORS spike** — first re-verify the current HeiGIT/ORS docs, use `https://api.heigit.org/openrouteservice` and **never** the deprecated `api.openrouteservice.org` (shuts down 2026-09-28) — with your key (environment variable only): real Chicago→St. Louis→Dallas and a cross-country route; record sanitized fixtures; check latency, response size, snapping of rural/odd coordinates, unit options, step shape; **confirm the actual free quota**.
 - `routing/base.py` (**`RoutingService`**, `GeocodingService` Protocols), `routing/ors.py`, `routing/photon.py`, `routing/geometry.py` (polyline decode/encode/simplify, mile→coordinate index), `routing/places.py` + `scripts/build_places.py` + committed CSV, `routing/timezone.py` (**size check** for `timezonefinder`, else `tzfpy`), caching, error mapping.
@@ -131,37 +134,37 @@ TDD, in this order:
 - **Deploy spike — moved earlier (Q13): proposed right after G1, before Phase 1.** A walking skeleton (`/api/health` + the Phase 0 page) on Vercel ×2, to surface Python-runtime, bundle-size and settings-without-DB surprises **now**. It needs your explicit go-ahead, a Vercel login, and Vercel CLI ≥ 50.38.0 (installed: 50.4.0). Nothing is deployed until you approve it.
 - **Exit:** adapter contract tests pass on recorded fixtures · opt-in `pytest -m live` passes · interpolated route points lie on the polyline · place lookup passes a ~30-point known-answer set.
 
-### Phase 3 — API layer · 2–3 h → **G3**
+### Phase 3 — API layer · 2–3 h → **G3** · **done**
 
 Serializers · `services.plan_trip` (hours → integer minutes once; `PlanParams` from settings with `allow_34_hour_restart=False`; departure from the fixed start-time convention, A-16) · views · error envelope · throttles · CORS · drf-spectacular schema + `/api/docs/` · write `docs/api-contract.md` · API tests with a fake `RoutingService`.
 
 - **Exit:** a real `curl` returns a valid plan · **a `cycle_exhausted` request returns HTTP 200 with `summary.status`, the `cycle_exhausted` warning, `unplanned` and `arrival_at = null`** · every error code in architecture §4.4 has a test · response validates against the OpenAPI schema · `plan_self_check_failed` path tested.
 
-### Phase 4 — Frontend foundation and form · 3–4 h → **G4** (with Phase 5)
+### Phase 4 — Frontend foundation and form · 3–4 h → **G4** (with Phase 5) · **done**
 
 Design tokens · `AppShell` · `TripForm` (3 comboboxes with typeahead + cycle used; **no departure-time field**, Q4) · Zod schema · API client · loading / error states · "Try an example" · MSW handlers · tests. **No HOS logic** (architecture §5.0).
 
 - **Exit:** form drives the real local API and shows the raw summary · keyboard-only operable.
 
-### Phase 5 — Results UI · 6–8 h (largest) → **G4**
+### Phase 5 — Results UI · 6–8 h (largest) → **G4** · **done**
 
 Summary strip · `RouteMap` (lazy chunk; `cycle-limit` marker) · `StopsTimeline` · `RouteInstructions` · `DailySummaryTable` · **`LogSheet` SVG** (grid, ticks, step-lines + connectors, totals, remarks, recap, header) · `DayTabs` · **cycle-violation banner** · responsive polish · empty/edge states · visual QA against `blank-paper-log.png` and the FMCSA sample (guide p.19).
 
 - **Exit:** the S3 fixture renders a sheet whose totals and drawn lines match the goldens · the S4 fixture renders the banner and one truncated log · flow works at phone width · axe reports no serious issues · guard test finds no HOS constants in `frontend/src`.
 
-### Phase 6 — Hardening and QA · 3–4 h → **G5**
+### Phase 6 — Hardening and QA · 3–4 h → **G5** · **done**
 
 Run the manual trip matrix (§4.3) · hand-audit three plans against the spec · Playwright smoke · perf / bundle check · error-UX pass · README with screenshots · security checklist · dead-code sweep.
 
 - **Exit:** no known correctness bugs · all checks green in CI.
 
-### Phase 7a — Deploy · 1.5–2 h → **G6**
+### Phase 7a — Deploy · 1.5–2 h → **G6** · **not started — needs explicit go-ahead**
 
 Upgrade Vercel CLI → create GitHub repo (**private initially, Q12; nothing is pushed without your explicit go-ahead**) → two Vercel projects → env vars + CORS → hosted smoke. Review the Phase 0 `manage.py check --deploy` baseline (W002 X-Frame-Options, W003 CSRF middleware, W004 HSTS, W008 SSL redirect) and decide each.
 
 - **Exit:** hosted URL passes the §6 smoke items.
 
-### Phase 7b — Submit · ~1 h → **G7**
+### Phase 7b — Submit · ~1 h → **G7** · **in progress** (repo pushed publicly; README and repo-hygiene cleanup underway; Loom not yet recorded)
 
 README with live URLs and the assumptions list · repo hygiene check · Loom rehearsal and recording (§8).
 
@@ -371,3 +374,10 @@ These were the questions and proposed defaults put to you before G0. **All were 
   - Regulatory wording fixed: the 70 h behaviour is a product constraint, not an FMCSA requirement (D-1, HOS-5, `V_CYCLE_70`, AD-14, CLAUDE.md, README).
   - Dependencies: only what Phase 0 exercises was installed; `python-dotenv` dropped (environment variables only); TypeScript stays on the template's 6.0.x; no CI workflow (Q11).
   - Layout: `config/settings_test.py` added; deploy spike moved to right after G1 (Q13).
+- **rev 4.** Phases 1–6 executed (HOS engine, routing/API, frontend, hardening/QA); the repository was pushed
+  to a public GitHub remote as part of Phase 7b. Notable deviation from rev 3: `python-dotenv` was
+  reintroduced (`backend/config/settings.py` loads `backend/.env` for local-dev convenience; real environment
+  variables still take precedence and no secret is ever committed) — this supersedes the rev-3 "dropped"
+  decision; see architecture §9. Public-repo documentation cleanup (README, this file, architecture.md)
+  followed to remove stale Phase-0-era status language before submission. Phase 7a (deploy) and the Loom
+  recording remain outstanding.

@@ -1,6 +1,8 @@
 # Architecture
 
-> **Status:** **rev 3** — 2026-09-21. G0 approved; the Phase 0 foundation is built (health endpoint, tooling). Revisions: `implementation-plan.md` §9.
+> **Status:** **rev 4** — see `implementation-plan.md` §9 for the full revision history. All phases (0–7a) described
+> below are built: HOS engine, routing/API layer and frontend all exist and are covered by tests, per the current
+> repository contents. Deployment (Phase 7b, hosting) has not happened — there is no live URL.
 > Companion docs: [`hos-rules.md`](hos-rules.md) (the rules spec) · [`implementation-plan.md`](implementation-plan.md) (phases, tests, risks).
 > "Verified" below means checked against the vendor's own documentation on 2026-09-21.
 
@@ -388,12 +390,15 @@ Versions are the registry's latest on 2026-09-21; **pin exact versions at instal
 | django-cors-headers | 4.9.0 | yes | |
 | drf-spectacular | 0.30.0 | yes | AD-12; `/api/docs/` |
 | requests | 2.34.2 | yes | sync + `Session`; async adds nothing on WSGI |
-| timezonefinder | 9.0.0 | **default** | offline lat/lng→zone; check installed size in the Phase-2 spike, else `tzfpy` 2.1.0 |
+| tzfpy | 2.1.0 | **used** | offline lat/lng→zone; chosen over `timezonefinder` after the Phase-2 spike (~3 MB, zero deps vs. ~60–100+ MB with numpy/h3/cffi) |
 | tzdata | 2026.4 | yes | Windows |
-| python-dotenv | 1.2.3 | **dropped** | configuration is environment variables only (Q14); nothing loads a `.env` file |
+| python-dotenv | 1.2.3 | **used** | loads `backend/.env` for local-dev convenience only (git-ignored, never committed); real environment variables always take precedence (`override=False`); secrets such as `ORS_API_KEY` remain environment-only (Q14) |
 | *dev:* pytest 9.1.1 · pytest-django 4.14.0 · **hypothesis 6.168.0** · responses 0.26.3 · pytest-cov · ruff 0.16.8 · mypy 2.3.1 | | yes | Hypothesis is central to HOS assurance |
 
-**Installed in Phase 0:** Django 5.2.17, djangorestframework 3.18.1 (+ asgiref 3.12.1, sqlparse 0.6.0, tzdata 2026.4) and, for development, pytest 9.1.1, pytest-django 4.14.0, ruff 0.16.8, mypy 2.3.1. **Everything else in this table is deferred** to the phase that first uses it (timezonefinder and requests: Phase 2; hypothesis: Phase 1; responses: Phase 2; drf-spectacular and django-cors-headers: Phase 3 or the deploy spike). Nothing is installed "just in case".
+**Installed:** Django 5.2.17, djangorestframework 3.18.1 (+ asgiref 3.12.1, sqlparse 0.6.0, tzdata 2026.4) at
+Phase 0; requests, tzfpy (chosen over timezonefinder — see the Phase 2 G3 report) and hypothesis at Phase 1–2;
+django-cors-headers and drf-spectacular (+ their transitive pins) at Phase 3. Each package arrived in the phase
+that first used it — nothing was installed "just in case" — and all are now present in `requirements.txt`.
 
 **Rejected:** Celery/Redis (no async work) · Postgres/SQLite (AD-1) · numpy/scipy/geopandas/shapely (weight, unnecessary) ·
 geopy (own thin adapters are easier to fake) · gunicorn (only if the Render fallback is used).
@@ -414,7 +419,13 @@ geopy (own thin adapters are easier to fake) · gunicorn (only if the Render fal
 | *combobox a11y:* downshift (`useCombobox`) | not checked | pick at install; alternative: Radix/Headless UI |
 | *dev:* vitest 5.0.1 · @testing-library/react 16.3.3 · user-event 14.6.7 · msw 2.15.0 · @playwright/test 1.63.0 · eslint 10.11.0 + typescript-eslint · prettier 3.9.8 · openapi-typescript 7.13.0 | | |
 
-**Installed in Phase 0:** react / react-dom 19.3.0, vite 8.3.0, @vitejs/plugin-react 6.1.1, typescript 6.0.3, tailwindcss + @tailwindcss/vite 4.3.3, eslint 10.11.0 (+ typescript-eslint 8.70.0), prettier 3.9.8, vitest 5.0.1, jsdom 30.1.0, @testing-library/react 16.3.3, @testing-library/jest-dom 7.0.1. **Everything else is deferred** (query, forms, validation, map and icon libraries: Phase 4–5; MSW and user-event: Phase 4; Playwright: Phase 6; openapi-typescript: Phase 3–4).
+**Installed:** react / react-dom, vite, @vitejs/plugin-react, typescript, tailwindcss + @tailwindcss/vite, eslint
+(+ typescript-eslint), prettier, vitest, jsdom, @testing-library/react, @testing-library/jest-dom at Phase 0;
+@tanstack/react-query, react-hook-form + zod + @hookform/resolvers, leaflet/react-leaflet, @mapbox/polyline,
+lucide-react, clsx and downshift at Phase 4–5; msw, @testing-library/user-event and openapi-typescript
+(generates `frontend/src/types/api.ts` from the backend's OpenAPI schema) at Phase 3–4. Exact pinned versions
+are in `frontend/package.json`. Playwright was cut (see the cut list in `implementation-plan.md` §3) and is
+not installed.
 
 **Rejected:** Next.js (AD-10) · Redux/Zustand (server state is in Query; UI state is local) · chart libraries (the log is bespoke SVG) ·
 Google Maps/Mapbox GL (keys, billing) · MUI/Chakra (heavier, less distinctive) · moment/date-fns (server sends ISO + minutes; `Intl` suffices).

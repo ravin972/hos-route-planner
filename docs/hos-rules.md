@@ -1,6 +1,6 @@
 # HOS Rules & Planning Spec
 
-> **Status:** **rev 3** — 2026-09-21. G0 approved; decisions Q1–Q19 are recorded in §3. Phase 0 scaffolding exists; no HOS code yet.
+> **Status:** **rev 4** — 2026-09-23. G0 approved (2026-09-21); decisions Q1–Q19 are recorded in §3.
 > **Role:** This is the executable specification for `backend/trips/hos/`. Code, tests and this file must
 > agree. If behaviour changes, change this file, the tests and the code **in the same commit**.
 

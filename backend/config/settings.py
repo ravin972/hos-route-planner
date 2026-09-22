@@ -9,9 +9,8 @@ with no database configured, because Vercel executes ``manage.py`` to discover t
 import os
 from pathlib import Path
 
-from dotenv import load_dotenv
-
 from django.core.exceptions import ImproperlyConfigured
+from dotenv import load_dotenv
 
 # Load .env from the backend directory (real env vars take precedence)
 load_dotenv(Path(__file__).resolve().parent.parent / ".env", override=False)
