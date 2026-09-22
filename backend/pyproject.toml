@@ -1,0 +1,36 @@
+# Tool configuration only: this is an application, not an installable package.
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings_test"
+testpaths = ["trips/tests"]
+addopts = "-ra --strict-markers -m \"not live\""
+markers = [
+    "live: talks to real external services (OpenRouteService, Photon); opt in with -m live",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+plugins = ["mypy_django_plugin.main", "mypy_drf_plugin.main"]
+# Phase 0-3 scope was the pure HOS engine and the routing adapters (implementation-plan.md section
+# 4.4). Widened at the start of Phase 4 (by explicit instruction) to also cover services.py and
+# the API layer, which Phase 3 built and gated only by tests -- this widening is a new Phase 4
+# requirement, not a retroactive claim that Phase 3's own gate included it. django-stubs and
+# djangorestframework-stubs (+ their mypy plugins above) resolve Django/DRF's own missing-stub
+# noise properly, rather than hiding it behind broad `# type: ignore`s.
+files = ["trips/hos", "trips/routing", "trips/services.py", "trips/api"]
+
+[tool.django-stubs]
+# config.settings_test, not config.settings directly: the plugin imports the settings module for
+# real, and config.settings raises ImproperlyConfigured without DJANGO_SECRET_KEY/DJANGO_DEBUG set
+# (by design -- it must fail loudly in a real deploy with no key). settings_test sets DEBUG=true
+# before importing config.settings, the same fix pytest already needed for the identical reason
+# (config/settings_test.py's own docstring).
+django_settings_module = "config.settings_test"

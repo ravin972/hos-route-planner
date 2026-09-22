@@ -1,0 +1,26 @@
+# Development and test tooling: exact pins captured at the Phase 0 install (2026-09-21, Python 3.12).
+-r requirements.txt
+ast_serialize==0.11.2
+colorama==0.4.6
+iniconfig==2.3.0
+librt==0.15.0
+mypy==2.3.1
+mypy_extensions==1.1.0
+packaging==26.3
+pathspec==1.1.1
+pluggy==1.6.0
+Pygments==2.21.0
+pytest==9.1.1
+pytest-django==4.14.0
+ruff==0.16.8
+typing_extensions==4.16.0
+
+# Phase 2: mocks the ORS/Photon HTTP calls in trips/tests/routing -- no real network in tests.
+responses==0.26.3
+PyYAML==6.0.3
+
+# Phase 4: proper Django/DRF types for mypy, instead of broad # type: ignore suppressions.
+django-stubs==6.1.1
+django-stubs-ext==6.1.1
+djangorestframework-stubs==3.18.1
+types-PyYAML==6.0.12.20260906

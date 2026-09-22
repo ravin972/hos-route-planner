@@ -1,0 +1,250 @@
+{
+  "summary": {
+    "status": "complete",
+    "route_distance_mi": 300.0,
+    "planned_distance_mi": 300.0,
+    "total_driving_hours": 6.0,
+    "total_on_duty_hours": 8.25,
+    "departure_at": "2026-09-22T08:00:00-05:00",
+    "arrival_at": "2026-09-22T16:15:00-05:00",
+    "days": 1,
+    "timezone": "America/Chicago",
+    "utc_offset": "-05:00",
+    "stop_counts": {
+      "fuel": 0,
+      "break": 0,
+      "rest": 0,
+      "restart": 0
+    },
+    "cycle": {
+      "used_at_start_h": 0.0,
+      "used_at_end_h": 8.25,
+      "remaining_h": 61.75,
+      "limit_h": 70.0,
+      "status": "ok"
+    },
+    "unplanned": null
+  },
+  "assumptions": {
+    "avg_speed_mph": 50,
+    "pickup_min": 60,
+    "dropoff_min": 60,
+    "pretrip_min": 15,
+    "fuel_stop_min": 30,
+    "fuel_interval_mi": 1000,
+    "cycle_limit_h": 70.0,
+    "restart_applied": false,
+    "departure_local_time": "08:00"
+  },
+  "route": {
+    "geometry": "cir~FfezuObymJv}hDfdkGf|jIvkcUv~aPrfqLfrdV",
+    "bounds": [
+      [32.7767, -96.797],
+      [41.8781, -87.6298]
+    ],
+    "legs": [
+      {
+        "kind": "to_pickup",
+        "from": {
+          "label": "Chicago, IL",
+          "lat": 41.8781,
+          "lng": -87.6298
+        },
+        "to": {
+          "label": "St. Louis, MO",
+          "lat": 38.627,
+          "lng": -90.1994
+        },
+        "distance_mi": 100.0,
+        "steps": []
+      },
+      {
+        "kind": "to_dropoff",
+        "from": {
+          "label": "St. Louis, MO",
+          "lat": 38.627,
+          "lng": -90.1994
+        },
+        "to": {
+          "label": "Dallas, TX",
+          "lat": 32.7767,
+          "lng": -96.797
+        },
+        "distance_mi": 200.0,
+        "steps": []
+      }
+    ]
+  },
+  "stops": [
+    {
+      "id": "s0",
+      "type": "start",
+      "reason": "trip_start",
+      "label": "Chicago, IL",
+      "lat": 41.8781,
+      "lng": -87.6298,
+      "route_mile": 0.0,
+      "arrive_at": "2026-09-22T08:00:00-05:00",
+      "depart_at": "2026-09-22T08:00:00-05:00",
+      "duration_min": 0,
+      "duty_status": "OFF"
+    },
+    {
+      "id": "s1",
+      "type": "pretrip",
+      "reason": "pretrip_inspection",
+      "label": "Chicago, IL",
+      "lat": 41.8781,
+      "lng": -87.6298,
+      "route_mile": 0.0,
+      "arrive_at": "2026-09-22T08:00:00-05:00",
+      "depart_at": "2026-09-22T08:15:00-05:00",
+      "duration_min": 15,
+      "duty_status": "ON"
+    },
+    {
+      "id": "s2",
+      "type": "pickup",
+      "reason": "pickup",
+      "label": "St. Louis, MO",
+      "lat": 38.627,
+      "lng": -90.1994,
+      "route_mile": 100.0,
+      "arrive_at": "2026-09-22T10:15:00-05:00",
+      "depart_at": "2026-09-22T11:15:00-05:00",
+      "duration_min": 60,
+      "duty_status": "ON"
+    },
+    {
+      "id": "s3",
+      "type": "dropoff",
+      "reason": "dropoff",
+      "label": "Dallas, TX",
+      "lat": 32.7767,
+      "lng": -96.797,
+      "route_mile": 300.0,
+      "arrive_at": "2026-09-22T15:15:00-05:00",
+      "depart_at": "2026-09-22T16:15:00-05:00",
+      "duration_min": 60,
+      "duty_status": "ON"
+    }
+  ],
+  "daily_logs": [
+    {
+      "date": "2026-09-22",
+      "day_number": 1,
+      "from": "Chicago, IL",
+      "to": "Dallas, TX",
+      "miles_driven": 300.0,
+      "header": {
+        "carrier": "",
+        "main_office": "",
+        "home_terminal": "",
+        "vehicle": ""
+      },
+      "totals_h": {
+        "OFF": 15.75,
+        "SB": 0.0,
+        "D": 6.0,
+        "ON": 2.25
+      },
+      "segments": [
+        {
+          "status": "OFF",
+          "start_min": 0,
+          "end_min": 480,
+          "kind": "idle"
+        },
+        {
+          "status": "ON",
+          "start_min": 480,
+          "end_min": 495,
+          "kind": "pretrip"
+        },
+        {
+          "status": "D",
+          "start_min": 495,
+          "end_min": 615,
+          "kind": "drive"
+        },
+        {
+          "status": "ON",
+          "start_min": 615,
+          "end_min": 675,
+          "kind": "pickup"
+        },
+        {
+          "status": "D",
+          "start_min": 675,
+          "end_min": 915,
+          "kind": "drive"
+        },
+        {
+          "status": "ON",
+          "start_min": 915,
+          "end_min": 975,
+          "kind": "dropoff"
+        },
+        {
+          "status": "OFF",
+          "start_min": 975,
+          "end_min": 1440,
+          "kind": "idle"
+        }
+      ],
+      "remarks": [
+        {
+          "minute": 0,
+          "place": "Chicago, IL",
+          "note": "Off duty"
+        },
+        {
+          "minute": 480,
+          "place": "Chicago, IL",
+          "note": "Pre-trip inspection"
+        },
+        {
+          "minute": 495,
+          "place": "Chicago, IL",
+          "note": "Driving"
+        },
+        {
+          "minute": 615,
+          "place": "St. Louis, MO",
+          "note": "Pickup"
+        },
+        {
+          "minute": 675,
+          "place": "St. Louis, MO",
+          "note": "Driving"
+        },
+        {
+          "minute": 915,
+          "place": "Dallas, TX",
+          "note": "Drop-off"
+        },
+        {
+          "minute": 975,
+          "place": "Dallas, TX",
+          "note": "Off duty"
+        }
+      ],
+      "recap": {
+        "on_duty_today_h": 8.25,
+        "a_last_8_days_h": 8.25,
+        "b_available_tomorrow_h": 61.75,
+        "c_last_5_days_h": null
+      },
+      "summary": {
+        "driving_h": 6.0,
+        "on_duty_h": 8.25,
+        "off_duty_h": 15.75,
+        "sleeper_h": 0.0,
+        "miles": 300.0,
+        "stop_ids": ["s0", "s1", "s2", "s3"],
+        "cycle_remaining_h": 61.75
+      }
+    }
+  ],
+  "warnings": []
+}

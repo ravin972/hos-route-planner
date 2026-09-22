@@ -1,0 +1,52 @@
+# ---- Secrets and local config (never commit) ----
+.env
+.env.*
+!.env.example
+
+# ---- Assessment materials that must not be committed (decision Q12) ----
+new-full-stack-dev-assessment.docx
+docs/reference/
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# ---- Node / frontend ----
+node_modules/
+dist/
+dist-ssr/
+*.tsbuildinfo
+coverage/
+.vite/
+npm-debug.log*
+# Scratch dump used only as openapi-typescript's input (Phase 4, AD-12) -- the live schema
+# (GET /api/schema/) is the source of truth; regenerate on demand, don't hand-edit or commit it.
+frontend/openapi-schema.json
+
+# ---- Hosting ----
+.vercel/
+
+# ---- Editors and OS ----
+.idea/
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+Thumbs.db
+*.log
+
+# AI / local development instructions
+CLAUDE.md
+.claude/
+
+#Project doc
+blank-paper-log.png
+fmcsa-hos-395-drivers-guide-to-hos-2022-04-28-0-1-.pdf
+fmsca-image.png

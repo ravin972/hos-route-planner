@@ -1,0 +1,32 @@
+# Runtime dependencies: exact pins captured at the Phase 0 install (2026-09-21, Python 3.12).
+# Add a package here only in the phase that first uses it.
+asgiref==3.12.1
+Django==5.2.17
+djangorestframework==3.18.1
+python-dotenv==1.2.3
+sqlparse==0.6.0
+tzdata==2026.4
+
+# Phase 2: routing adapters (trips/routing). requests is the HTTP client for the ORS and Photon
+# adapters; certifi/charset-normalizer/idna/urllib3 are its own transitive pins. tzfpy is the
+# offline coordinate -> IANA-zone lookup (chosen over timezonefinder: see the Phase 2 G3 report
+# for the size comparison -- ~3 MB and zero dependencies vs. ~60-100+ MB with numpy/h3/cffi).
+requests==2.34.2
+certifi==2026.7.22
+charset-normalizer==3.5.1
+idna==3.20
+urllib3==2.8.0
+tzfpy==2.1.0
+
+# Phase 3: the API layer. django-cors-headers is the frontend CORS allow-list (architecture.md
+# section 4.5); drf-spectacular generates the OpenAPI schema and /api/docs/ (AD-12), pulling in
+# uritemplate/jsonschema/inflection/attrs/referencing/rpds-py as its own transitive pins.
+django-cors-headers==4.9.0
+drf-spectacular==0.30.0
+uritemplate==4.2.0
+jsonschema==4.26.0
+jsonschema-specifications==2025.9.1
+referencing==0.37.0
+rpds-py==2026.6.3
+inflection==0.5.1
+attrs==26.1.0

@@ -1,0 +1,257 @@
+{
+  "summary": {
+    "status": "cycle_exhausted",
+    "route_distance_mi": 850.0,
+    "planned_distance_mi": 437.5,
+    "total_driving_hours": 8.75,
+    "total_on_duty_hours": 10.0,
+    "departure_at": "2026-09-22T08:00:00-05:00",
+    "arrival_at": null,
+    "days": 1,
+    "timezone": "America/Chicago",
+    "utc_offset": "-05:00",
+    "stop_counts": {
+      "fuel": 0,
+      "break": 0,
+      "rest": 0,
+      "restart": 0
+    },
+    "cycle": {
+      "used_at_start_h": 60.0,
+      "used_at_end_h": 70.0,
+      "remaining_h": 0.0,
+      "limit_h": 70.0,
+      "status": "exhausted"
+    },
+    "unplanned": {
+      "miles": 412.5,
+      "pending": ["dropoff"],
+      "blocked": "drive",
+      "shortfall_h": 9.25
+    }
+  },
+  "assumptions": {
+    "avg_speed_mph": 50,
+    "pickup_min": 60,
+    "dropoff_min": 60,
+    "pretrip_min": 15,
+    "fuel_stop_min": 30,
+    "fuel_interval_mi": 1000,
+    "cycle_limit_h": 70.0,
+    "restart_applied": false,
+    "departure_local_time": "08:00"
+  },
+  "route": {
+    "geometry": "cir~FfezuOvrpv@~m}v@",
+    "bounds": [
+      [32.7767, -96.797],
+      [41.8781, -87.6298]
+    ],
+    "legs": [
+      {
+        "kind": "to_pickup",
+        "from": {
+          "label": "Chicago, IL",
+          "lat": 41.8781,
+          "lng": -87.6298
+        },
+        "to": {
+          "label": "St. Louis, MO",
+          "lat": 38.627,
+          "lng": -90.1994
+        },
+        "distance_mi": 50.0,
+        "steps": []
+      },
+      {
+        "kind": "to_dropoff",
+        "from": {
+          "label": "St. Louis, MO",
+          "lat": 38.627,
+          "lng": -90.1994
+        },
+        "to": {
+          "label": "Dallas, TX",
+          "lat": 32.7767,
+          "lng": -96.797
+        },
+        "distance_mi": 800.0,
+        "steps": []
+      }
+    ]
+  },
+  "stops": [
+    {
+      "id": "s0",
+      "type": "start",
+      "reason": "trip_start",
+      "label": "Chicago, IL",
+      "lat": 41.8781,
+      "lng": -87.6298,
+      "route_mile": 0.0,
+      "arrive_at": "2026-09-22T08:00:00-05:00",
+      "depart_at": "2026-09-22T08:00:00-05:00",
+      "duration_min": 0,
+      "duty_status": "OFF"
+    },
+    {
+      "id": "s1",
+      "type": "pretrip",
+      "reason": "pretrip_inspection",
+      "label": "Chicago, IL",
+      "lat": 41.8781,
+      "lng": -87.6298,
+      "route_mile": 0.0,
+      "arrive_at": "2026-09-22T08:00:00-05:00",
+      "depart_at": "2026-09-22T08:15:00-05:00",
+      "duration_min": 15,
+      "duty_status": "ON"
+    },
+    {
+      "id": "s2",
+      "type": "pickup",
+      "reason": "pickup",
+      "label": "St. Louis, MO",
+      "lat": 38.627,
+      "lng": -90.1994,
+      "route_mile": 50.0,
+      "arrive_at": "2026-09-22T09:15:00-05:00",
+      "depart_at": "2026-09-22T10:15:00-05:00",
+      "duration_min": 60,
+      "duty_status": "ON"
+    },
+    {
+      "id": "s3",
+      "type": "cycle_limit",
+      "reason": "cycle_exhausted",
+      "label": "near 37.19, -92.35",
+      "lat": 37.19355588235294,
+      "lng": -92.34821176470588,
+      "route_mile": 437.5,
+      "arrive_at": "2026-09-22T18:00:00-05:00",
+      "depart_at": "2026-09-22T18:00:00-05:00",
+      "duration_min": 0,
+      "duty_status": "OFF"
+    }
+  ],
+  "daily_logs": [
+    {
+      "date": "2026-09-22",
+      "day_number": 1,
+      "from": "Chicago, IL",
+      "to": "near 37.19, -92.35",
+      "miles_driven": 437.5,
+      "header": {
+        "carrier": "",
+        "main_office": "",
+        "home_terminal": "",
+        "vehicle": ""
+      },
+      "totals_h": {
+        "OFF": 14.0,
+        "SB": 0.0,
+        "D": 8.75,
+        "ON": 1.25
+      },
+      "segments": [
+        {
+          "status": "OFF",
+          "start_min": 0,
+          "end_min": 480,
+          "kind": "idle"
+        },
+        {
+          "status": "ON",
+          "start_min": 480,
+          "end_min": 495,
+          "kind": "pretrip"
+        },
+        {
+          "status": "D",
+          "start_min": 495,
+          "end_min": 555,
+          "kind": "drive"
+        },
+        {
+          "status": "ON",
+          "start_min": 555,
+          "end_min": 615,
+          "kind": "pickup"
+        },
+        {
+          "status": "D",
+          "start_min": 615,
+          "end_min": 1080,
+          "kind": "drive"
+        },
+        {
+          "status": "OFF",
+          "start_min": 1080,
+          "end_min": 1440,
+          "kind": "idle"
+        }
+      ],
+      "remarks": [
+        {
+          "minute": 0,
+          "place": "Chicago, IL",
+          "note": "Off duty"
+        },
+        {
+          "minute": 480,
+          "place": "Chicago, IL",
+          "note": "Pre-trip inspection"
+        },
+        {
+          "minute": 495,
+          "place": "Chicago, IL",
+          "note": "Driving"
+        },
+        {
+          "minute": 555,
+          "place": "Chicago, IL",
+          "note": "Pickup"
+        },
+        {
+          "minute": 615,
+          "place": "Chicago, IL",
+          "note": "Driving"
+        },
+        {
+          "minute": 1080,
+          "place": "near 37.19, -92.35",
+          "note": "Off duty"
+        }
+      ],
+      "recap": {
+        "on_duty_today_h": 10.0,
+        "a_last_8_days_h": 70.0,
+        "b_available_tomorrow_h": 0.0,
+        "c_last_5_days_h": null
+      },
+      "summary": {
+        "driving_h": 8.75,
+        "on_duty_h": 10.0,
+        "off_duty_h": 14.0,
+        "sleeper_h": 0.0,
+        "miles": 437.5,
+        "stop_ids": ["s0", "s1", "s2", "s3"],
+        "cycle_remaining_h": 0.0
+      }
+    }
+  ],
+  "warnings": [
+    {
+      "code": "cycle_exhausted",
+      "severity": "violation",
+      "message": "The 70-hour cycle runs out at mile 437.5 (Day 1, 18:00). 412.5 mi and the drop-off remain; at least 9.25 more on-duty hours are needed. No 34-hour restart applied.",
+      "details": {
+        "stopped_at_mile": 437.5,
+        "blocked": "drive",
+        "pending": ["dropoff"],
+        "unplanned_miles": 412.5,
+        "shortfall_min": 555
+      }
+    }
+  ]
+}
