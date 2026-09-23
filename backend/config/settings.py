@@ -59,7 +59,15 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
+    # Zero-cost on a JSON API (only affects framed HTML, e.g. /api/docs/); resolves W002 below.
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+# `manage.py check --deploy` also flags W003 (CSRF middleware), W004 (HSTS) and W008 (SSL redirect).
+# Left off deliberately: there is no cookie/session auth so CSRF middleware has nothing to protect
+# and would only risk breaking legitimate POSTs; Vercel terminates TLS and enforces HTTPS at its
+# edge for every request, so Django-level HSTS/SSL-redirect are redundant, and blindly enabling
+# SECURE_SSL_REDIRECT without SECURE_PROXY_SSL_HEADER would 500 every request behind Vercel's proxy.
 
 ROOT_URLCONF = "config.urls"
 WSGI_APPLICATION = "config.wsgi.application"
