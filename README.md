@@ -20,6 +20,7 @@ both locally (see [Run it locally](#run-it-locally)) and at the live URLs below.
 | --- | --- |
 | **App** | <https://hos-route-planner-drab.vercel.app> |
 | **API** | <https://hos-route-planner-api.vercel.app> |
+| 🎥 Demo Video | <https://www.loom.com/share/8a8c3f6c82b540109aa0f65332f7d5fa> |
 | **API docs (OpenAPI/Swagger)** | <https://hos-route-planner-api.vercel.app/api/docs/> |
 | **Health check** | <https://hos-route-planner-api.vercel.app/api/health> |
 
