@@ -1,5 +1,33 @@
 # Tool configuration only: this is an application, not an installable package.
 
+[project]
+name = "hos-route-planner"
+version = "0.1.0"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "asgiref==3.12.1",
+    "attrs==26.1.0",
+    "certifi==2026.7.22",
+    "charset-normalizer==3.5.1",
+    "django==5.2.17",
+    "django-cors-headers==4.9.0",
+    "djangorestframework==3.18.1",
+    "drf-spectacular==0.30.0",
+    "idna==3.20",
+    "inflection==0.5.1",
+    "jsonschema==4.26.0",
+    "jsonschema-specifications==2025.9.1",
+    "python-dotenv==1.2.3",
+    "referencing==0.37.0",
+    "requests==2.34.2",
+    "rpds-py==2026.6.3",
+    "sqlparse==0.6.0",
+    "tzdata==2026.4",
+    "tzfpy==2.1.0",
+    "uritemplate==4.2.0",
+    "urllib3==2.8.0",
+]
+
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "config.settings_test"
 testpaths = ["trips/tests"]
@@ -34,3 +62,27 @@ files = ["trips/hos", "trips/routing", "trips/services.py", "trips/api"]
 # before importing config.settings, the same fix pytest already needed for the identical reason
 # (config/settings_test.py's own docstring).
 django_settings_module = "config.settings_test"
+
+[dependency-groups]
+dev = [
+    "ast-serialize==0.11.2",
+    "colorama==0.4.6",
+    "django-stubs==6.1.1",
+    "django-stubs-ext==6.1.1",
+    "djangorestframework-stubs==3.18.1",
+    "iniconfig==2.3.0",
+    "librt==0.15.0",
+    "mypy==2.3.1",
+    "mypy-extensions==1.1.0",
+    "packaging==26.3",
+    "pathspec==1.1.1",
+    "pluggy==1.6.0",
+    "pygments==2.21.0",
+    "pytest==9.1.1",
+    "pytest-django==4.14.0",
+    "pyyaml==6.0.3",
+    "responses==0.26.3",
+    "ruff==0.16.8",
+    "types-pyyaml==6.0.12.20260906",
+    "typing-extensions==4.16.0",
+]
